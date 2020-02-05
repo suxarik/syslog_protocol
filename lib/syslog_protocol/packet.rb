@@ -11,7 +11,8 @@ module SyslogProtocol
       unless @hostname and @facility and @severity and @tag
         raise "Could not assemble packet without hostname, tag, facility, and severity"
       end
-      data = "<#{pri}>#{generate_timestamp} #{@hostname} #{@tag}: #{@content}"
+      # To be compatible with ArcSight CEF format
+      data = "<#{pri}>#{generate_timestamp} #{@hostname} #{@tag} CEF:0|#{@content}"
 
       if string_bytesize(data) > max_size
         data = data.slice(0, max_size)
